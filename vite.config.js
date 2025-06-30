@@ -3,6 +3,8 @@
 // Here it's used to construct absolute paths in a cross-platform way.
 import path from 'node:path';
 
+import { partytownVite } from "@qwik.dev/partytown/utils";
+
 // Import the Vite plugin to add legacy browser support.
 // This plugin generates additional bundles for older browsers
 // (like Internet Explorer 11) so they can still run your app.
@@ -29,6 +31,9 @@ export default {
 
   // Register plugins to extend Vite's behavior.
   plugins: [
+    partytownVite({
+      dest: path.join(__dirname, "dist", "~partytown"),
+    }),
     // legacy() adds legacy browser support by generating modern + legacy bundles.
     legacy(),
   ]
