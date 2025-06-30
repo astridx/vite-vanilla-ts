@@ -1,3 +1,8 @@
-last 10 versions
-> 0.2%
+# Support browsers with more than 0.5% global market share,
+# the last 2 versions of each browser,
+# browsers that are not officially declared "dead" (no updates for >24 months),
+# and explicitly include IE 11 for legacy support.
+
+> 0.5%
+last 2 versions
 not dead

@@ -1,35 +1,51 @@
 import '../styles/global.scss';
 import '../styles/global.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
+
+import {
+  FullscreenControl,
+  GeolocateControl,
+  Map,
+  NavigationControl,
+  ScaleControl
+} from 'maplibre-gl';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const main = document.querySelector('main');
-  const counter = main?.querySelector('#counter');
-  const year = document.querySelector('#year');
-
-  if (main && counter) {
-    main.addEventListener('click', (event: MouseEvent) => {
-      const { id, tagName } = event.target as HTMLElement;
-
-      if (tagName === 'BUTTON') {
-        const currentCount = Number(counter.textContent);
-
-        switch (id) {
-          case 'increment': {
-            counter.textContent = `${currentCount + 1}`;
-
-            break;
-          }
-          case 'decrement': {
-            counter.textContent = `${currentCount - 1}`;
-
-            break;
-          }
-        }
-      }
+  const mapContainer = document.getElementById('map');
+  if (mapContainer) {
+    const map = new Map({
+      container: mapContainer,
+      hash: mapContainer.id,
+      style: 'https://tiles.versatiles.org/assets/styles/colorful/style.json',
+      center: [13.404954, 52.520008],
+      zoom: 10
     });
-  }
 
-  if (year) {
-    year.textContent = new Date().getFullYear().toString();
+    // NavigationControl (Zoom und Rotation)
+    map.addControl(new NavigationControl(), 'top-left');
+
+    // ScaleControl (Maßstabsleiste)
+    map.addControl(
+      new ScaleControl({ maxWidth: 100, unit: 'metric' }),
+      'bottom-left'
+    );
+
+    // FullscreenControl (Vollbildmodus)
+    map.addControl(new FullscreenControl(), 'top-left');
+
+    // GeolocateControl (Standortbestimmung)
+    map.addControl(
+      new GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showAccuracyCircle: true
+      }),
+      'top-left'
+    );
+
+    map.dragRotate.disable();
+    map.touchZoomRotate.disableRotation();
   }
 });
